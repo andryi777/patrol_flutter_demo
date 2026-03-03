@@ -16,4 +16,10 @@ docs/_site/
 # Flutter/Dart/Pub related
 
 # Patrol generated test bundle (contains absolute paths, regenerated on each build)
-patrol_test/
+patrol_test/test_bundle.dart
+
+# Log files
+*.log
+
+# macOS
+.DS_Store

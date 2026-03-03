@@ -48,7 +48,7 @@ We actively welcome your pull requests:
 ## Development Setup
 
 1. Fork and clone the repository
-2. Install Flutter SDK (version 3.7.0 or higher)
+2. Install Flutter SDK (version 3.41.0 or higher)
 3. Install dependencies:
    ```bash
    flutter pub get

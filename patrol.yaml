@@ -7,4 +7,4 @@ ios:
   bundle_id: com.ssoad.flutterRiverpodCleanArchitecture
   app_name: Runner
 
-test_target: integration_test
+test_target: patrol_test

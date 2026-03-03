@@ -14,8 +14,8 @@
     <p style="font-size: 1.5em; max-width: 800px; margin: 38px auto 0 auto; line-height: 1.6; color: white; font-weight: 300; text-shadow: 0 2px 4px rgba(0,0,0,0.10); text-align: center;">A <b style="font-weight: 600; text-decoration: underline; text-decoration-color: rgba(255,255,255,0.3);">production-ready</b> Flutter template for scalable, maintainable, and testable apps. Powered by Riverpod, Clean Architecture, and modern best practices.</p>
     <div style="background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.7)); border-radius: 6px; padding: 8px 20px; color: #0175C2; font-weight: 700; margin: 25px auto 0; display: inline-block; box-shadow: 0 4px 15px rgba(0,0,0,0.15); transform: rotate(-1deg); font-size: 1.2em; animation: pulse 2s infinite ease-in-out;">⚡️ Build Apps Faster Than Ever! ⚡️</div>
     <div style="margin: 40px 0 0 0; display: flex; gap: 18px; flex-wrap: wrap; justify-content: center;">
-      <span style="display: inline-block; background: rgba(255,255,255,0.22); border-radius: 30px; font-size: 1.1em; color: white; font-weight: 600; padding: 10px 22px; box-shadow: 0 5px 15px rgba(0,0,0,0.10);">⚡ Flutter 3.7+</span>
-      <span style="display: inline-block; background: rgba(255,255,255,0.22); border-radius: 30px; font-size: 1.1em; color: white; font-weight: 600; padding: 10px 22px; box-shadow: 0 5px 15px rgba(0,0,0,0.10);">💎 Dart 3.0+</span>
+      <span style="display: inline-block; background: rgba(255,255,255,0.22); border-radius: 30px; font-size: 1.1em; color: white; font-weight: 600; padding: 10px 22px; box-shadow: 0 5px 15px rgba(0,0,0,0.10);">⚡ Flutter 3.41+</span>
+      <span style="display: inline-block; background: rgba(255,255,255,0.22); border-radius: 30px; font-size: 1.1em; color: white; font-weight: 600; padding: 10px 22px; box-shadow: 0 5px 15px rgba(0,0,0,0.10);">💎 Dart 3.10+</span>
       <span style="display: inline-block; background: rgba(255,255,255,0.22); border-radius: 30px; font-size: 1.1em; color: white; font-weight: 600; padding: 10px 22px; box-shadow: 0 5px 15px rgba(0,0,0,0.10);">🔄 Riverpod 2.0+</span>
       <span style="display: inline-block; background: rgba(255,255,255,0.22); border-radius: 30px; font-size: 1.1em; color: white; font-weight: 600; padding: 10px 22px; box-shadow: 0 5px 15px rgba(0,0,0,0.10);">📜 MIT License</span>
     </div>
@@ -527,7 +527,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <span class="faq-icon" style="display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: linear-gradient(135deg, #4CAF50, #81C784); border-radius: 50%; color: white; font-size: 1.2em; box-shadow: 0 4px 10px rgba(76,175,80,0.25); transition: all 0.3s ease;">⌄</span>
       </summary>
       <div style="padding: 5px 30px 26px 30px; border-top: 1px solid var(--faq-content-border); background: linear-gradient(to bottom right, rgba(76,175,80,0.02), transparent);">
-        <p style="color: var(--faq-text); line-height: 1.8; font-size: 1.1em; margin-top: 16px;">The template supports Flutter 3.7+ and Dart 3.0+. It's regularly updated to be compatible with the latest stable Flutter releases and takes advantage of newer language features like pattern matching and records.</p>
+        <p style="color: var(--faq-text); line-height: 1.8; font-size: 1.1em; margin-top: 16px;">The template supports Flutter 3.41+ and Dart 3.10+. It's regularly updated to be compatible with the latest stable Flutter releases and takes advantage of newer language features like pattern matching and records.</p>
       </div>
     </details>
     

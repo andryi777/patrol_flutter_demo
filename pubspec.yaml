@@ -85,8 +85,8 @@ dev_dependencies:
   custom_lint: ^0.8.1
   mocktail: ^1.0.4
   flutter_launcher_icons: ^0.14.4
-  patrol: ^3.11.0
-  patrol_cli: ^3.3.0
+  patrol: ^4.1.0
+  patrol_cli: ^4.0.2
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

@@ -6,9 +6,10 @@ Este proyecto usa [Patrol](https://patrol.leancode.co/) para pruebas de integrac
 
 ### Requisitos
 
-- Flutter 3.7+
-- Para iOS: Xcode 14+, CocoaPods
-- Para Android: Android SDK, Java 11+
+- Flutter 3.41+ (Dart SDK >=3.10.0)
+- Patrol CLI 4.1+
+- Para iOS: Xcode 16+, CocoaPods, iOS 13+
+- Para Android: Android SDK, Java 17+
 
 ### Comandos Principales
 
@@ -17,7 +18,7 @@ Este proyecto usa [Patrol](https://patrol.leancode.co/) para pruebas de integrac
 patrol test
 
 # Ejecutar un test específico
-patrol test integration_test/flows/login_test.dart
+patrol test patrol_test/flows/login_test.dart
 
 # Especificar dispositivo
 patrol test --device "iPhone 17 Pro"
@@ -26,19 +27,16 @@ patrol test --device "iPhone 17 Pro"
 flutter devices
 ```
 
-También puedes usar el script incluido:
-
-```bash
-./run_patrol_test.sh
-```
-
 ### Estructura de Tests
 
 ```
-integration_test/
+patrol_test/
 ├── flows/              # Tests por flujo de usuario
-│   └── login_test.dart
-├── test_bundle.dart    # Agrupa todos los tests
+│   ├── login_test.dart
+│   └── biometrics_test.dart
+├── helpers/            # Helpers reutilizables
+│   └── login_helper.dart
+├── test_bundle.dart    # Generado automáticamente (ignorado en git)
 └── test_main.dart      # Entry point
 ```
 
@@ -124,6 +122,16 @@ flutter test --coverage
 ```bash
 flutter devices  # Verificar nombre exacto
 patrol test --device "nombre exacto"
+```
+
+### Test de Biometrics en iOS Simulator
+Antes de correr el test de biometrics:
+1. En el simulador: **Features → Face ID → Enrolled**
+2. Durante el test, cuando aparezca el diálogo: **Features → Face ID → Matching Face**
+
+```bash
+# Correr solo tests de biometrics
+patrol test --tags biometrics
 ```
 
 ### Error de sandbox en iOS

@@ -1,6 +1,6 @@
 # Flutter Riverpod Clean Architecture Template
 
-![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=flat&logo=flutter)
+![Flutter](https://img.shields.io/badge/Flutter-3.41+-02569B?style=flat&logo=flutter)
 ![Riverpod](https://img.shields.io/badge/Riverpod-2.0+-0175C2?style=flat)
 ![Architecture](https://img.shields.io/badge/Architecture-Clean-success)
 ![License](https://img.shields.io/badge/License-MIT-purple)
@@ -46,8 +46,8 @@ A production-ready, highly scalable Flutter template designed for modern applica
 ## 🛠️ Quick Start
 
 ### 1. Prerequisites
-- Flutter SDK (3.7+)
-- Dart SDK (3.0+)
+- Flutter SDK (3.41+)
+- Dart SDK (3.10+)
 
 ### 2. Installation
 ```bash

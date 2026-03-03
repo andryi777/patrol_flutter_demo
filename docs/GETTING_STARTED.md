@@ -4,8 +4,8 @@ This guide will help you get up and running with the Flutter Riverpod Clean Arch
 
 ## Prerequisites
 
-- Flutter SDK (version 3.7.0 or higher)
-- Dart SDK (version 3.0.0 or higher)
+- Flutter SDK (version 3.41.0 or higher)
+- Dart SDK (version 3.10.0 or higher)
 - An IDE with Flutter support (VS Code, Android Studio, or IntelliJ)
 
 ## Installation Options
