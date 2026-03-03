@@ -63,28 +63,24 @@ class MyApp extends ConsumerWidget {
     // Watch the persistent locale
     final locale = ref.watch(persistentLocaleProvider);
 
-    return UpdateChecker(
-      autoPrompt: true,
-      enforceCriticalUpdates: true,
-      child: AccessibilityWrapper(
-        child: MaterialApp.router(
-          title: AppConstants.appName,
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
-          themeMode: themeMode,
-          routerConfig: router,
-          debugShowCheckedModeBanner: false,
+    return AccessibilityWrapper(
+      child: MaterialApp.router(
+        title: AppConstants.appName,
+        theme: AppTheme.lightTheme,
+        darkTheme: AppTheme.darkTheme,
+        themeMode: themeMode,
+        routerConfig: router,
+        debugShowCheckedModeBanner: false,
 
-          // Localization settings
-          locale: locale,
-          localizationsDelegates: [
-            const AppLocalizationsDelegate(),
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          supportedLocales: AppLocalizations.supportedLocales,
-        ),
+        // Localization settings
+        locale: locale,
+        localizationsDelegates: [
+          const AppLocalizationsDelegate(),
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: AppLocalizations.supportedLocales,
       ),
     );
   }

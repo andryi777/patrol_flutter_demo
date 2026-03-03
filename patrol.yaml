@@ -1,0 +1,10 @@
+app_name: flutter_riverpod_clean_architecture
+
+android:
+  package_name: com.ssoad.flutter_riverpod_clean_architecture
+
+ios:
+  bundle_id: com.ssoad.flutterRiverpodCleanArchitecture
+  app_name: Runner
+
+test_target: integration_test

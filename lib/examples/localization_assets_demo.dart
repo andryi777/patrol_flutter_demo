@@ -130,7 +130,7 @@ class LocalizationAssetsDemo extends ConsumerWidget {
 
             const SizedBox(height: 16),
 
-            // Examples of localized assets
+            // Localized content example
             Card(
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -138,24 +138,35 @@ class LocalizationAssetsDemo extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      context.tr('image_example'),
+                      'Localized Content Example',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                     const SizedBox(height: 16),
 
-                    Center(
+                    // Show different greeting based on locale
+                    Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.all(24),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                       child: Column(
                         children: [
-                          // This would display a localized welcome image
-                          const LocalizedImage(
-                            imageName: 'welcome.png',
-                            width: 240,
-                            height: 160,
-                            fit: BoxFit.contain,
+                          Icon(
+                            Icons.language,
+                            size: 48,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            _getLocalizedGreeting(locale.languageCode),
+                            style: Theme.of(context).textTheme.headlineSmall,
+                            textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            context.tr('welcome_image_caption'),
+                            'Current locale: ${locale.languageCode.toUpperCase()}',
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
@@ -164,28 +175,75 @@ class LocalizationAssetsDemo extends ConsumerWidget {
 
                     const SizedBox(height: 24),
 
-                    // Example with a common (non-localized) image
+                    // Localized image
                     Text(
-                      context.tr('common_image_example'),
+                      'Localized Image',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    const SizedBox(height: 16),
-
+                    const SizedBox(height: 8),
                     Center(
-                      child: Column(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: const LocalizedImage(
+                          imageName: 'welcome.png',
+                          width: 240,
+                          height: 160,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Center(
+                      child: Text(
+                        'Image changes based on selected language',
+                        style: Theme.of(context).textTheme.bodySmall,
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // Common logo
+                    Text(
+                      'Common Image (shared)',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Center(
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(12),
+                        child: const LocalizedImage(
+                          imageName: 'logo.png',
+                          useCommonPath: true,
+                          width: 100,
+                          height: 100,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 24),
+
+                    // RTL/LTR indicator
+                    Text(
+                      'Text Direction Example',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
                         children: [
-                          // This would display a common image (not localized)
-                          const LocalizedImage(
-                            imageName: 'logo.png',
-                            useCommonPath: true,
-                            width: 120,
-                            height: 120,
-                            fit: BoxFit.contain,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            context.tr('common_image_caption'),
-                            style: Theme.of(context).textTheme.bodySmall,
+                          const Icon(Icons.format_textdirection_l_to_r),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: Text(
+                              _getSampleText(locale.languageCode),
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
                           ),
                         ],
                       ),
@@ -217,6 +275,46 @@ class LocalizationAssetsDemo extends ConsumerWidget {
         return 'বাংলা';
       default:
         return languageCode;
+    }
+  }
+
+  /// Helper to get localized greeting
+  String _getLocalizedGreeting(String languageCode) {
+    switch (languageCode) {
+      case 'en':
+        return 'Hello! Welcome to the app.';
+      case 'es':
+        return '¡Hola! Bienvenido a la aplicación.';
+      case 'fr':
+        return 'Bonjour! Bienvenue dans l\'application.';
+      case 'de':
+        return 'Hallo! Willkommen in der App.';
+      case 'ja':
+        return 'こんにちは！アプリへようこそ。';
+      case 'bn':
+        return 'হ্যালো! অ্যাপে স্বাগতম।';
+      default:
+        return 'Hello! Welcome to the app.';
+    }
+  }
+
+  /// Helper to get sample text for each language
+  String _getSampleText(String languageCode) {
+    switch (languageCode) {
+      case 'en':
+        return 'The quick brown fox jumps over the lazy dog.';
+      case 'es':
+        return 'El veloz murciélago hindú comía feliz cardillo y kiwi.';
+      case 'fr':
+        return 'Portez ce vieux whisky au juge blond qui fume.';
+      case 'de':
+        return 'Victor jagt zwölf Boxkämpfer quer über den großen Sylter Deich.';
+      case 'ja':
+        return 'いろはにほへとちりぬるを。';
+      case 'bn':
+        return 'আমি বাংলায় গান গাই।';
+      default:
+        return 'The quick brown fox jumps over the lazy dog.';
     }
   }
 }

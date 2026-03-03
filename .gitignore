@@ -14,3 +14,6 @@ build/
 docs/_site/
 # Generated files
 # Flutter/Dart/Pub related
+
+# Patrol generated test bundle (contains absolute paths, regenerated on each build)
+patrol_test/
