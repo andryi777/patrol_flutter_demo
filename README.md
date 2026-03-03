@@ -38,6 +38,7 @@ A production-ready, highly scalable Flutter template designed for modern applica
 - [**Architecture Guide**](docs/ARCHITECTURE_GUIDE.md): Deep dive into the project structure.
 - [**Coding Standards**](docs/CODING_STANDARDS.md): Rules and patterns used in this project.
 - [**Feature Guide**](docs/FEATURES.md): Documentation for core features.
+- [**Testing Guide**](docs/TESTING_GUIDE.md): Patrol, integration tests, running the app.
 - [**CLI Tools**](docs/TOOLS.md): How to use the generator scripts.
 
 ---
@@ -159,19 +160,20 @@ feature_name/
 
 ## 🧪 Testing
 
-We use a comprehensive testing strategy:
-
-- **Unit Tests**: For Use Cases, Repositories, and Data Sources.
-- **Widget Tests**: For reusable UI components.
-- **Golden Tests**: For visual regression testing of screens.
+- **Unit Tests**: Use Cases, Repositories, Data Sources
+- **Widget Tests**: UI components
+- **Golden Tests**: Visual regression
+- **Integration Tests**: E2E con [Patrol](https://patrol.leancode.co/)
 
 ```bash
-# Run all tests
+# Unit/Widget tests
 flutter test
 
-# Update Golden files
-flutter test --update-goldens
+# Integration tests (Patrol)
+patrol test
 ```
+
+📖 Ver [Testing Guide](docs/TESTING_GUIDE.md) para más detalles.
 
 ---
 
