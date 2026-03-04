@@ -7,7 +7,6 @@ import 'package:flutter_riverpod_clean_architecture/core/providers/localization_
 import 'package:flutter_riverpod_clean_architecture/core/providers/storage_providers.dart';
 import 'package:flutter_riverpod_clean_architecture/core/router/app_router.dart';
 import 'package:flutter_riverpod_clean_architecture/core/theme/app_theme.dart';
-import 'package:flutter_riverpod_clean_architecture/core/updates/update_providers.dart';
 import 'package:flutter_riverpod_clean_architecture/l10n/app_localizations_delegate.dart';
 import 'package:flutter_riverpod_clean_architecture/l10n/l10n.dart';
 import 'package:shared_preferences/shared_preferences.dart';

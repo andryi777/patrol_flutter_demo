@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod_clean_architecture/core/constants/app_constants.dart';
-import 'package:flutter_riverpod_clean_architecture/core/providers/localization_providers.dart';
 import 'package:flutter_riverpod_clean_architecture/core/router/locale_aware_router.dart';
 import 'package:flutter_riverpod_clean_architecture/core/router/scaffold_with_nav_bar.dart';
 import 'package:flutter_riverpod_clean_architecture/examples/localization_assets_demo.dart';

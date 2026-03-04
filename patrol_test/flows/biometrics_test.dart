@@ -10,6 +10,10 @@ void main() {
     ($) async {
       await performLogin($);
 
+      // Wait for home screen to fully load
+      await Future.delayed(const Duration(seconds: 2));
+      await $.pump(const Duration(seconds: 2));
+
       // Navegar a Settings
       await $.tester.tap(find.text('Settings'));
       await $.pump(const Duration(seconds: 1));
@@ -31,6 +35,10 @@ void main() {
     'verificar disponibilidad de biometrics',
     ($) async {
       await performLogin($);
+
+      // Wait for home screen to fully load
+      await Future.delayed(const Duration(seconds: 2));
+      await $.pump(const Duration(seconds: 2));
 
       // Navegar a Settings → Biometrics
       await $.tester.tap(find.text('Settings'));
@@ -56,6 +64,10 @@ void main() {
     'boton autenticar esta habilitado cuando biometrics disponible',
     ($) async {
       await performLogin($);
+
+      // Wait for home screen to fully load (extra time for this test)
+      await Future.delayed(const Duration(seconds: 4));
+      await $.pump(const Duration(seconds: 3));
 
       // Navegar a Settings → Biometrics
       await $.tester.tap(find.text('Settings'));
@@ -96,6 +108,10 @@ void main() {
     'tocar boton autenticar abre dialogo del sistema',
     ($) async {
       await performLogin($);
+
+      // Wait for home screen to fully load
+      await Future.delayed(const Duration(seconds: 2));
+      await $.pump(const Duration(seconds: 2));
 
       // Navegar a Settings → Biometrics
       await $.tester.tap(find.text('Settings'));

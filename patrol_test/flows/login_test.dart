@@ -23,6 +23,9 @@ void main() {
     'usuario puede hacer login exitosamente',
     ($) async {
       await performLogin($);
+      // Wait for home screen to fully load
+      await Future.delayed(const Duration(seconds: 2));
+      await $.pump(const Duration(seconds: 2));
       expect(find.text('Home'), findsWidgets);
     },
     tags: ['smoke', 'login'],
