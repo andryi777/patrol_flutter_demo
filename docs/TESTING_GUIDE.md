@@ -141,3 +141,51 @@ El proyecto ya tiene el sandbox deshabilitado en Xcode. Si persiste:
 
 ### App se cierra al cambiar idioma
 Verificar que `app_router.dart` no esté haciendo `ref.watch()` de providers de localización.
+
+---
+
+## Lecciones Aprendidas
+
+### iOS: Evitar múltiples clones del simulador
+
+**Problema:** Al ejecutar tests con Patrol en iOS, Xcode creaba múltiples clones del simulador (Clone 1, Clone 2, etc.), consumiendo recursos y causando confusión.
+
+**Causa raíz:** En `ios/Runner.xcodeproj/xcshareddata/xcschemes/Runner.xcscheme`, los `TestableReference` tenían `parallelizable = "YES"`, lo que indica a Xcode que puede crear clones del simulador para ejecutar tests en paralelo.
+
+**Solución:** Cambiar `parallelizable = "NO"` en ambos TestableReference:
+
+```xml
+<!-- Antes -->
+<TestableReference skipped="NO" parallelizable="YES">
+
+<!-- Después -->
+<TestableReference skipped="NO" parallelizable="NO">
+```
+
+**Ubicación:** Líneas 43 y 54 de `Runner.xcscheme`
+
+### Optimizar tiempo de ejecución con --no-uninstall
+
+**Problema:** La app se reinstalaba en cada ejecución de tests, perdiendo tiempo.
+
+**Solución:** Usar el flag `--no-uninstall` para mantener la app instalada después de las pruebas:
+
+```bash
+# Comando optimizado para iOS
+patrol test --device "UUID-DEL-SIMULADOR" --no-uninstall --ios 17.5
+
+# Para encontrar el UUID del simulador
+xcrun simctl list devices | grep -i booted
+```
+
+**Nota:** No existe un flag `--skip-install` en Patrol 4.2.0. La app siempre se reconstruye/reinstala al inicio, pero `--no-uninstall` evita la desinstalación posterior.
+
+### Comando recomendado para desarrollo
+
+```bash
+# Desarrollo iterativo (más rápido, soporta Hot Restart)
+patrol develop --device "iPhone 15 Pro" --no-uninstall
+
+# Ejecución de tests en CI/CD
+patrol test --device "iPhone 15 Pro" --no-uninstall --ios 17.5
+```
