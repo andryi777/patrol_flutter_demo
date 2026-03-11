@@ -96,7 +96,7 @@ jobs:
           emulator-options: -no-snapshot-save -no-window -gpu swiftshader_indirect -noaudio -no-boot-anim
           disable-animations: true
           script: |
-            patrol test --target patrol_test/flows/login_test.dart --no-uninstall
+            patrol test --target patrol_test/flows/login_test.dart --no-uninstall --no-label
 
   patrol-ios:
     name: Patrol Tests (iOS)
@@ -148,7 +148,7 @@ jobs:
       - name: Run Patrol tests on iOS Simulator
         run: |
           set +e
-          patrol test --target patrol_test/flows/login_test.dart --device "$DEVICE_ID" --no-uninstall 2>&1 | tee patrol_output.log
+          patrol test --target patrol_test/flows/login_test.dart --device "$DEVICE_ID" --no-uninstall --no-label 2>&1 | tee patrol_output.log
           EXIT_CODE=$?
 
           # Check if tests actually passed despite xcodebuild exit code 65
