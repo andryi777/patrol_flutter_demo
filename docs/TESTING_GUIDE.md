@@ -180,11 +180,46 @@ xcrun simctl list devices | grep -i booted
 
 **Nota:** No existe un flag `--skip-install` en Patrol 4.2.0. La app siempre se reconstruye/reinstala al inicio, pero `--no-uninstall` evita la desinstalación posterior.
 
+### patrol test vs patrol develop: Optimizar tiempos de build
+
+**Problema:** `patrol test` siempre reconstruye la app (~40-50s), incluso con `--no-uninstall`.
+
+**Hallazgo:** No existe un flag `--skip-build` en Patrol 4.2.0. El build es inevitable con `patrol test`.
+
+**Solución para desarrollo:** Usar `patrol develop` que soporta **Hot Restart**.
+
+| Comando | Build inicial | Re-ejecución |
+|---------|---------------|--------------|
+| `patrol test` | ~40s (siempre) | ~40s (rebuild completo) |
+| `patrol develop` | ~40s (una vez) | **~1s** (Hot Restart) |
+
+#### Uso de patrol develop
+
+```bash
+# Iniciar modo desarrollo (requiere terminal interactiva)
+patrol develop \
+  --target patrol_test/flows/login_test.dart \
+  --device "iPhone 15 Pro" \
+  --no-uninstall \
+  --ios 17.5
+```
+
+Una vez iniciado, usa estas teclas:
+| Tecla | Acción |
+|-------|--------|
+| `R` | Hot Restart - re-ejecuta tests (~1s) |
+| `r` | Hot Reload - aplica cambios de código |
+| `q` | Salir |
+
+**Cuándo usar cada uno:**
+- **`patrol develop`**: Desarrollo iterativo, debugging, escribir tests nuevos
+- **`patrol test`**: CI/CD, ejecución completa de suite, validación final
+
 ### Comando recomendado para desarrollo
 
 ```bash
 # Desarrollo iterativo (más rápido, soporta Hot Restart)
-patrol develop --device "iPhone 15 Pro" --no-uninstall
+patrol develop --target patrol_test/flows/login_test.dart --device "iPhone 15 Pro" --no-uninstall --ios 17.5
 
 # Ejecución de tests en CI/CD
 patrol test --device "iPhone 15 Pro" --no-uninstall --ios 17.5

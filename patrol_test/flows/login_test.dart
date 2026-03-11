@@ -10,8 +10,9 @@ void main() {
     'login screen muestra campos de email y password',
     ($) async {
       await testMain();
-      await Future.delayed(const Duration(seconds: 5));
-      await $.pump(const Duration(seconds: 2));
+
+      // Esperar a que aparezca la pantalla de login
+      await $.waitUntilVisible(find.text('Login'));
 
       expect(find.text('Login'), findsWidgets);
       expect(find.byType(TextFormField), findsWidgets);
@@ -23,9 +24,8 @@ void main() {
     'usuario puede hacer login exitosamente',
     ($) async {
       await performLogin($);
-      // Wait for home screen to fully load
-      await Future.delayed(const Duration(seconds: 2));
-      await $.pump(const Duration(seconds: 2));
+      // performLogin ya espera el BottomNavigationBar
+      // Verificar que estamos en Home
       expect(find.text('Home'), findsWidgets);
     },
     tags: ['smoke', 'login'],

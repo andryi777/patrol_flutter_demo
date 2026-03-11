@@ -622,14 +622,197 @@ enum SortOrder { asc, desc }
 
   /// Create test files
   Future<void> _createTestFiles() async {
-    // TODO: Implement test files creation
-    // This would mirror the shell script's test file creation
+    final testBase = 'test/features/$featureName';
+
+    // Repository test
+    await _createFile('$testBase/data/${featureName}_repository_impl_test.dart', '''
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:fpdart/fpdart.dart';
+
+import 'package:flutter_riverpod_clean_architecture/core/error/exceptions.dart';
+import 'package:flutter_riverpod_clean_architecture/core/error/failures.dart';
+import 'package:flutter_riverpod_clean_architecture/core/network/network_info.dart';
+import 'package:flutter_riverpod_clean_architecture/features/$featureName/data/datasources/${featureName}_remote_datasource.dart';
+import 'package:flutter_riverpod_clean_architecture/features/$featureName/data/datasources/${featureName}_local_datasource.dart';
+import 'package:flutter_riverpod_clean_architecture/features/$featureName/data/models/${featureName}_model.dart';
+import 'package:flutter_riverpod_clean_architecture/features/$featureName/data/repositories/${featureName}_repository_impl.dart';
+
+class Mock${pascalCase}RemoteDataSource extends Mock implements ${pascalCase}RemoteDataSource {}
+class Mock${pascalCase}LocalDataSource extends Mock implements ${pascalCase}LocalDataSource {}
+class MockNetworkInfo extends Mock implements NetworkInfo {}
+
+void main() {
+  late ${pascalCase}RepositoryImpl repository;
+  late Mock${pascalCase}RemoteDataSource mockRemoteDataSource;
+  late Mock${pascalCase}LocalDataSource mockLocalDataSource;
+  late MockNetworkInfo mockNetworkInfo;
+
+  setUp(() {
+    mockRemoteDataSource = Mock${pascalCase}RemoteDataSource();
+    mockLocalDataSource = Mock${pascalCase}LocalDataSource();
+    mockNetworkInfo = MockNetworkInfo();
+    repository = ${pascalCase}RepositoryImpl(
+      remoteDataSource: mockRemoteDataSource,
+      localDataSource: mockLocalDataSource,
+      networkInfo: mockNetworkInfo,
+    );
+  });
+
+  group('getAll${pascalCase}s', () {
+    final tModels = [${pascalCase}Model(id: '1')];
+
+    test('should return remote data when online', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(() => mockRemoteDataSource.get${pascalCase}s()).thenAnswer((_) async => tModels);
+      when(() => mockLocalDataSource.cache${pascalCase}s(tModels)).thenAnswer((_) async {});
+
+      final result = await repository.getAll${pascalCase}s();
+
+      expect(result, Right(tModels));
+      verify(() => mockRemoteDataSource.get${pascalCase}s());
+      verify(() => mockLocalDataSource.cache${pascalCase}s(tModels));
+    });
+
+    test('should return cached data when offline', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(() => mockLocalDataSource.getCached${pascalCase}s()).thenAnswer((_) async => tModels);
+
+      final result = await repository.getAll${pascalCase}s();
+
+      expect(result, Right(tModels));
+      verify(() => mockLocalDataSource.getCached${pascalCase}s());
+      verifyNever(() => mockRemoteDataSource.get${pascalCase}s());
+    });
+
+    test('should return ServerFailure when remote call fails', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(() => mockRemoteDataSource.get${pascalCase}s()).thenThrow(ServerException());
+
+      final result = await repository.getAll${pascalCase}s();
+
+      expect(result, Left(ServerFailure()));
+    });
+
+    test('should return CacheFailure when cache is empty and offline', () async {
+      when(() => mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      when(() => mockLocalDataSource.getCached${pascalCase}s()).thenThrow(CacheException());
+
+      final result = await repository.getAll${pascalCase}s();
+
+      expect(result, Left(CacheFailure()));
+    });
+  });
+}
+''');
+
+    // Use case test
+    await _createFile('$testBase/domain/get_all_${featureName}s_test.dart', '''
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
+import 'package:fpdart/fpdart.dart';
+
+import 'package:flutter_riverpod_clean_architecture/core/usecases/usecase.dart';
+import 'package:flutter_riverpod_clean_architecture/features/$featureName/domain/entities/${featureName}_entity.dart';
+import 'package:flutter_riverpod_clean_architecture/features/$featureName/domain/repositories/${featureName}_repository.dart';
+import 'package:flutter_riverpod_clean_architecture/features/$featureName/domain/usecases/get_all_${featureName}s.dart';
+
+class Mock${pascalCase}Repository extends Mock implements ${pascalCase}Repository {}
+
+void main() {
+  late GetAll${pascalCase}s usecase;
+  late Mock${pascalCase}Repository mockRepository;
+
+  setUp(() {
+    mockRepository = Mock${pascalCase}Repository();
+    usecase = GetAll${pascalCase}s(mockRepository);
+  });
+
+  test('should get all ${camelCase}s from the repository', () async {
+    final tEntities = [const ${pascalCase}Entity(id: '1')];
+    when(() => mockRepository.getAll${pascalCase}s())
+        .thenAnswer((_) async => Right(tEntities));
+
+    final result = await usecase(NoParams());
+
+    expect(result, Right(tEntities));
+    verify(() => mockRepository.getAll${pascalCase}s());
+    verifyNoMoreInteractions(mockRepository);
+  });
+}
+''');
+
+    // Widget test (if UI is enabled)
+    if (withUi) {
+      await _createFile('$testBase/presentation/${featureName}_list_screen_test.dart', '''
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:flutter_riverpod_clean_architecture/features/$featureName/presentation/screens/${featureName}_list_screen.dart';
+
+void main() {
+  testWidgets('${pascalCase}ListScreen shows loading indicator initially', (tester) async {
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          home: ${pascalCase}ListScreen(),
+        ),
+      ),
+    );
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+  });
+}
+''');
+    }
   }
 
   /// Create documentation files
   Future<void> _createDocFiles() async {
-    // TODO: Implement documentation file creation
-    // This would mirror the shell script's documentation file creation
+    await _createFile('docs/features/$featureName.md', '''
+# $pascalCase Feature
+
+## Overview
+Brief description of the $featureName feature.
+
+## Architecture
+
+### Data Layer
+- **Model**: `${pascalCase}Model` — serialization/deserialization
+- **Remote DataSource**: API calls
+- **Local DataSource**: cache operations
+- **Repository Impl**: coordinates remote/local with offline support
+
+### Domain Layer
+- **Entity**: `${pascalCase}Entity` — core business object
+- **Repository**: abstract contract
+- **Use Cases**: `GetAll${pascalCase}s`, `Get${pascalCase}ById`
+
+### Presentation Layer
+- **Screens**: `${pascalCase}ListScreen`, `${pascalCase}DetailScreen`
+- **Providers**: Riverpod providers for state management
+
+## Usage
+
+```dart
+// Watch the list
+final items = ref.watch(${camelCase}ListProvider);
+
+// Select an item
+ref.read(selected${pascalCase}IdProvider.notifier).state = id;
+```
+
+## Testing
+
+```bash
+# Run unit tests
+flutter test test/features/$featureName/
+
+# Run a specific test
+flutter test test/features/$featureName/data/${featureName}_repository_impl_test.dart
+```
+''');
   }
 
   /// Helper method to create a directory and its parents if they don't exist

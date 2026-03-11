@@ -64,6 +64,7 @@ dependencies:
   flutter_form_builder: ^10.2.0
   form_builder_validators: ^11.2.0
   flutter_local_notifications: ^18.0.1
+  timezone: ^0.10.1
 
 dev_dependencies:
   flutter_test:
@@ -85,8 +86,8 @@ dev_dependencies:
   custom_lint: ^0.8.1
   mocktail: ^1.0.4
   flutter_launcher_icons: ^0.14.4
-  patrol: ^4.1.0
-  patrol_cli: ^4.0.2
+  patrol: ^4.2.0
+  patrol_cli: ^4.2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

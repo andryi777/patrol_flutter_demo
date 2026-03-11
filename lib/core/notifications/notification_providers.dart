@@ -75,9 +75,6 @@ class NotificationDeepLinkHandler extends Notifier<String?> {
     return null;
   }
 
-  /// Get the pending deep link, if any
-  String? get pendingDeepLink => state;
-
   /// Clear the pending deep link
   void clearPendingDeepLink() {
     state = null;

@@ -128,15 +128,6 @@ class BiometricAuthController extends Notifier<BiometricAuthState> {
     return const BiometricAuthState();
   }
 
-  /// Whether the user is currently authenticated
-  bool get isAuthenticated => state.isAuthenticated;
-
-  /// The result of the last authentication attempt
-  BiometricResult? get lastResult => state.lastResult;
-
-  /// When the user was last authenticated
-  DateTime? get lastAuthTime => state.lastAuthTime;
-
   /// Authenticate the user with biometrics
   Future<BiometricResult> authenticate({
     required String reason,
