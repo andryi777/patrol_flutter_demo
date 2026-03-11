@@ -3,6 +3,15 @@ name: Flutter CI
 on:
   push:
     branches: [ main ]
+    paths:
+      - 'lib/**'
+      - 'patrol_test/**'
+      - 'test/**'
+      - 'pubspec.yaml'
+      - 'pubspec.lock'
+      - 'android/**'
+      - 'ios/**'
+      - '.github/workflows/**'
   pull_request:
     branches: [ main ]
   workflow_dispatch:
@@ -55,6 +64,16 @@ jobs:
           channel: 'stable'
           cache: true
 
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ runner.os }}-${{ hashFiles('android/**/*.gradle*', 'android/**/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ runner.os }}-
+
       - name: Install dependencies
         run: flutter pub get
 
@@ -93,6 +112,14 @@ jobs:
         with:
           channel: 'stable'
           cache: true
+
+      - name: Cache CocoaPods
+        uses: actions/cache@v4
+        with:
+          path: ios/Pods
+          key: pods-${{ runner.os }}-${{ hashFiles('ios/Podfile.lock') }}
+          restore-keys: |
+            pods-${{ runner.os }}-
 
       - name: Install dependencies
         run: flutter pub get
