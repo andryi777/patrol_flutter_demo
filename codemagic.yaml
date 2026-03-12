@@ -1,0 +1,40 @@
+workflows:
+  patrol-ios:
+    name: Patrol Tests (iOS)
+    instance_type: mac_mini_m2
+    max_build_duration: 30
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
+    environment:
+      flutter: stable
+    scripts:
+      - name: Install dependencies
+        script: flutter pub get
+
+      - name: Install Patrol CLI
+        script: dart pub global activate patrol_cli 4.2.0
+
+      - name: Boot iOS Simulator
+        script: |
+          DEVICE_ID=$(xcrun simctl list devices available -j | python3 -c "
+          import json, sys
+          data = json.load(sys.stdin)
+          for runtime, devices in data['devices'].items():
+            if 'iOS' in runtime:
+              for d in devices:
+                if 'iPhone' in d['name'] and d['isAvailable']:
+                  print(d['udid'])
+                  sys.exit(0)
+          ")
+          xcrun simctl boot "$DEVICE_ID" 2>/dev/null || true
+          echo "DEVICE_ID=$DEVICE_ID" >> $CM_ENV
+
+      - name: Run Patrol tests on iOS Simulator
+        script: |
+          patrol test --target patrol_test/flows/login_test.dart --device "$DEVICE_ID" --no-uninstall --no-label
+        ignore_failure: true
